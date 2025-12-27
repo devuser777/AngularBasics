@@ -1,0 +1,19 @@
+<p>temp-form works!</p>
+
+<div>
+    <form (ngSubmit)="onFormSubmit()" #myForm="ngForm">
+
+        <input id="fname" name="firstName" #firstNameControl [(ngModel)]="fName" placeholder="First name" required/>
+
+        <ng-container *ngIf="firstNameControl.value">
+            You entered: {{fName }}
+        </ng-container>
+
+        <div ngModelGroup="add">
+            <input type="text" name="address" ngModel />
+            <input type="text" name="city" ngModel/>
+        </div>
+
+        <button type="submit" [disabled]="!myForm.valid">Submit</button>
+    </form>
+</div>

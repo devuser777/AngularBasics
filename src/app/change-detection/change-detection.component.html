@@ -1,0 +1,51 @@
+<section class="cd-demo">
+	<h2>Change Detection — OnPush (simple explanation)</h2>
+
+	<p>
+		OnPush tells Angular to run change detection for a component only when:
+	</p>
+	<ul>
+		<li>an Input reference changes,</li>
+		<li>an event originates from inside the component (click, input, etc.),</li>
+		<li>an observable bound using the async pipe emits, or</li>
+		<li>you explicitly request a check (e.g. using ChangeDetectorRef).</li>
+	</ul>
+
+	<p>
+		This improves performance by avoiding unnecessary checks, but you must
+		manually trigger change detection when updates happen outside Angular's
+		automatic triggers (for example, when ngZone is disabled or you update a
+		property inside a non-Angular callback).
+	</p>
+
+	<h3>Live demo</h3>
+	<p>Counter: <strong>{{ counter }}</strong></p>
+
+	<div class="controls">
+		<button (click)="detach()">Detach</button>
+		<button (click)="reattach()">Reattach</button>
+		<button (click)="detectChanges()">Detect Changes</button>
+		<!--<button (click)="markForCheck()">Mark For Check</button>-->
+	</div>
+
+	<p class="note">
+		Try toggling detach/reattach and then incrementing the counter from a
+		background callback. When detached, the component will not be checked even
+		if you call <code>markForCheck()</code>. When OnPush is active and the
+		update happens outside Angular zones, you must call <code>detectChanges()</code>
+		or run <code>NgZone.run()</code> to see the update.
+	</p>
+
+	<h4>ChangeDetectorRef methods (quick)</h4>
+	<ul>
+		<li><strong>markForCheck()</strong> — marks this component (and ancestors) to be checked on the next CD run.</li>
+		<li><strong>detectChanges()</strong> — runs change detection for this component subtree immediately.</li>
+		<li><strong>detach()</strong> — stops Angular from running change detection for this view until reattach() is called.</li>
+		<li><strong>reattach()</strong> — resumes change detection for the view.</li>
+	</ul>
+
+	<p class="tips">
+		Tip: Use <code>markForCheck()</code> for lazy updates and <code>detectChanges()</code>
+		when you need an immediate refresh (for example after disabling zones).
+	</p>
+</section>

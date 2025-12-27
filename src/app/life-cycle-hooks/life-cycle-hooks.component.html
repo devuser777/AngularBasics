@@ -1,0 +1,30 @@
+<section class="lc-hooks">
+	<h3>Angular lifecycle hooks — call order (names only)</h3>
+
+    <app-lifecycle-child [someInput]="counterVal"></app-lifecycle-child>
+
+	<h4>Initialization sequence (called once)</h4>
+	<ol>
+		<li>ngOnChanges (if inputs)</li>
+		<li>ngOnInit</li>
+		<li>ngDoCheck</li>
+		<li>ngAfterContentInit</li>
+		<li>ngAfterContentChecked</li>
+		<li style="color:#c0392b; font-weight:bold;">ngAfterViewInit</li>
+		<li style="color:#c0392b; font-weight:bold;">ngAfterViewChecked</li>
+	</ol>
+
+	<h4>Subsequent change-detection cycles (may repeat many times)</h4>
+	<ol>
+		<li>ngDoCheck</li>
+		<li>ngAfterContentChecked</li>
+		<li style="color:#c0392b; font-weight:bold;">ngAfterViewChecked</li>
+	</ol>
+
+	<h4>Destruction</h4>
+	<ol>
+		<li>ngOnDestroy</li>
+	</ol>
+
+    <button (click)="counterVal = counterVal + 1">Increment Counter</button>
+</section>

@@ -1,0 +1,45 @@
+<p>merge-map works!</p>
+
+<p>Explain below how all the operators (mergeMap, concatMap, switchMap, exhaustMap) work in the context of the example provided.</p>
+
+    <h3>Example overview</h3>
+    <p>
+        The outer observable emits values <code>1</code>, <code>2</code>, and <code>3</code> with a 1s delay between each emission.
+        For every emitted value the inner observable emits the value multiplied by <code>10</code> after a 2s delay.
+    </p>
+
+    <h4 id="mergeMap">mergeMap (concurrent)</h4>
+    <p>
+        <code>mergeMap</code> subscribes to each inner observable as the outer emits. Multiple inner observables can run
+        simultaneously and their results are merged into the output stream.
+    </p>
+    <ul>
+        <li>Outer emits <code>1</code> → inner emits <code>10</code> after 2s.</li>
+        <li>If the outer emits <code>2</code> before the first inner completes, <code>mergeMap</code> also subscribes to the inner for <code>2</code>.</li>
+        <li>Both inner observables run concurrently; their emissions interleave in the output.</li>
+    </ul>
+
+    <h4 id="concatMap">concatMap (sequential)</h4>
+    <p>
+        <code>concatMap</code> queues inner observables and waits for each to complete before subscribing to the next,
+        preserving the order of outer emissions.
+    </p>
+
+    <h4 id="switchMap">switchMap (latest only)</h4>
+    <p>
+        <code>switchMap</code> cancels any previous inner observable when a new outer value arrives, keeping only the latest inner active.
+    </p>
+
+    <h4 id="exhaustMap">exhaustMap (ignore while busy)</h4>
+    <p>
+        <code>exhaustMap</code> ignores new outer emissions while an inner observable is still active. It only processes the next outer
+        value after the current inner completes.
+    </p>
+
+    <h4>Summary</h4>
+    <ul>
+        <li><strong>mergeMap</strong>: concurrent processing (multiple active inners).</li>
+        <li><strong>concatMap</strong>: sequential processing (ordered, one at a time).</li>
+        <li><strong>switchMap</strong>: keeps only the latest inner (cancels previous).</li>
+        <li><strong>exhaustMap</strong>: ignores new values while busy (one inner at a time, skips others).</li>
+    </ul>
